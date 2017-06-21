@@ -1,12 +1,41 @@
-<div class="row">
+
+<div class="row" align="center">
         <div class="col-md-12">
-        <p class ="info" v-if = "info.stargazers_count">  <i class="fa fa-star" aria-hidden="true"></i> {{info.stargazers_count}}      
+<div class="ui active centered inline loader" v-show = "loading"></div>
+
+
+        <img alt="" class="ui small circular image" v-if = "info.stargazers_count>=0"   src="{{info.owner.avatar_url}}" >  
+
+        <div class ="info" style="margin-top: 30 px" v-if = "info.stargazers_count>=0">  <i class="fa fa-star" aria-hidden="true"></i> {{info.stargazers_count}}      
         &nbsp; &nbsp;      
         <i class="fa fa-code-fork" aria-hidden="true"></i>
         {{info.forks}}
         &nbsp; &nbsp;  
-<a href="https://github.com/{{fullRepoUrl}}/archive/master.zip" download style="cursor:pointer" v-if = "info.stargazers_count" >Download Zip</a>
-            <table class="table">
+        </div>
+        <div class="ui floating message "  style="width: 500px;background-color: rgba(244, 255, 240, 0.8)" align="center" v-else>
+         <ul class="list">
+        <li>Enter the <b>Full Repo Name </b>in the format of <i>username/repo.</i></li>
+        <li>And then press <b>ENTER</b> key.</li>
+      </ul>
+        </div>
+        &nbsp; &nbsp;  
+
+
+        <a href="https://github.com/{{fullRepoUrl}}/archive/master.zip" download style="cursor:pointer" v-if = "info.stargazers_count>=0" >
+        <i class="fa fa-download" aria-hidden="true"></i>
+        Download Zip
+        </a>
+
+         <div class="ui warning message " v-if="xhr.ok==false">
+                              <div class="header">
+                                Please enter correct username or repo name 
+                              </div>
+                              It is case-sensitive
+                            </div>
+
+        
+
+            <table class="ui red table" v-if="info.stargazers_count>=0" >
             
                 <caption style="cursor:pointer" v-if="path!=='/'" >
 
@@ -20,21 +49,25 @@
                 <thead>
 
                     <tr>
-                        <th>Name</th>
+                        <th v-if = "info.stargazers_count>=0">Name</th>
                         <th class="text-right"><button class="btn btn-default btn-xs" @click="goBack()" v-if="path !== '/'">Go Back</button></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="file in sortedFiles">
                         <td>
-                            <div class="file" v-if="file.type === 'file'">
+                        <div class="file" v-if="file.type === 'file'">
                                 <i class="fa fa-file-o"></i>
                                 {{file.name }}
+
                             </div> 
-                            <div class="directory" style="cursor:pointer" v-if="file.type === 'dir'">
+                        <div class="directory" style="cursor:pointer" v-if="file.type === 'dir'">
                                 <i class="fa fa-folder-o"></i>
                                 <a @click="changePath(file.path)">{{ file.name }}</a>
                             </div>
+                            
+                            
+                           
                         </td>
                         <td class="text-right">
                             <a href="{{ file.download_url }}" download v-if="file.type === 'file'">

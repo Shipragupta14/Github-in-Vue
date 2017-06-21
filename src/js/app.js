@@ -1,7 +1,6 @@
 var Vue = require('vue');
 Vue.config.debug = true;
 Vue.use(require('vue-resource'));
-
 new Vue({
     el: '#container',
     data: {
@@ -20,6 +19,10 @@ new Vue({
             console.log("username:", this.username);
             console.log("repo:", this.repo);
             console.groupEnd("Vue Data");
+        },
+        my:function(){
+            this.fullRepoName="";
+            this.githubFileExplorer.info.stargazers_count= false;
         }
     },
     components: {

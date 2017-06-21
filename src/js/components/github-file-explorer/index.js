@@ -2,10 +2,12 @@
         template: require('./template.html'),
         data: function() {
             return {
+                loading: false,
                 path: '/',
                 files: [],
                 info :{},
-                pathArr  : []
+                pathArr  : [],
+                xhr : {}
             };
         },
 
@@ -22,20 +24,35 @@
 
         methods: {
 	        getFiles: function() {
+                this.loading =true;
                 console.log("hello");
-	            this.$http.get('https://api.github.com/repos/' + this.fullRepoUrl + '/contents' + this.path,
-	                function(data) {
-	                    this.files = data;
-	                }
-	            );
+                var vm = this;
+	            this.$http.get('https://api.github.com/repos/' + this.fullRepoUrl + '/contents' + this.path)
+                .then(function(data){ 
+                    this.loading = false;
+                    console.log(this);
+                    vm.files=data.data ;
+                    vm.xhr={};
+
+
+                }).catch(function(err){
+                    vm.xhr=err;
+                    vm.info = {} 
+                });
+
 	        },
             getInfo:function(){
-                this.$http.get('https://api.github.com/repos/' + this.fullRepoUrl ,
-                    function(data){
-                        this.info = data;
-                        console.log(this.info.stargazers_count);
-                    }
-                );
+                var v = this;
+                this.$http.get('https://api.github.com/repos/' + this.fullRepoUrl) 
+                .then(function(data){
+                        v.info = data.data;
+                        
+                    }).catch(function(err){
+                    v.xhr=err;
+                
+                });
+                    
+                
             },
             changePath: function(path) {
                 this.pathArr = path.split('/');
@@ -64,6 +81,7 @@
 	            return this.username + '/' + this.repo;
 	        },
 	        sortedFiles: function() {
+                console.log(this.files);
         		return this.files.slice(0).sort(function(a, b) {  
             		if (a.type !== b.type) {
                 		if (a.type === 'dir') {

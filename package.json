@@ -11,6 +11,9 @@
   "bugs": {
     "url": "https://github.com/Shipragupta14/Github-in-Vue/issues"
   },
+  "scripts": {
+    "start": "gulp serve"
+  },
   "homepage": "https://github.com/Shipragupta14/Github-in-Vue#readme",
   "dependencies": {
     "bootstrap": "^3.3.5",

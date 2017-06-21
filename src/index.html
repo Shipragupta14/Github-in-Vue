@@ -2,21 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vue.js Github Explorer Blog</title>
+    <title >Vue.js Github Explorer Blog</title>
 
     <link rel="stylesheet" href="css/app.min.css">
+    <link href="lib/semantic/semantic.min.css" rel="stylesheet">
+
 </head>
 <body>
-<h3>Github in Vue</h3>
+
+
 <div id="container">
+<h2 align="center" style="margin: 20px; cursor: pointer;" onclick ="my()"><i class="fa fa-github" aria-hidden="true" ></i>
+&nbsp;
+Github in Vue</h2>
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <form id="changeRepoForm" @submit.prevent="changeRepo()" class="form-inline">
-                <div class="form-group">
-                    <label for="fullRepoName">Full Repo Name</label>
-                    <input type="text" name="fullRepoName" v-model="fullRepoName" class="form-control">
+            <form id="changeRepoForm" @submit.prevent="changeRepo()" class="form-inline" align="center">
+                <div class="ui search">
+                    <div class="ui left icon input">
+                    <input class="prompt" type="text" placeholder="username/repo" name="fullRepoName" v-model="fullRepoName" >
+                    <i class="github icon"></i>
+                    </div>
                 </div>
-                <input type="submit" class="btn btn-default" value="Get repo filesystem!">
+
             </form>
             <hr>
             <github-file-explorer :username="username" :repo="repo"></github-file-explorer>
@@ -24,7 +32,16 @@
     </div>
 
 </div>
+<script>
+    function my(){
+        location.reload();
+    }
+</script>>
+
 
 <script src="js/app.min.js"></script>
+
+<script src="lib/jquery-3.2.1.min.js"></script>
+<script src="lib/semantic/semantic.js"></script>
 </body>
 </html>

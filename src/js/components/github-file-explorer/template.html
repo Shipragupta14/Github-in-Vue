@@ -1,7 +1,6 @@
 
 <div class="row" align="center">
         <div class="col-md-12">
-<div class="ui active centered inline loader" v-show = "loading"></div>
 
 
         <img alt="" class="ui small circular image" v-if = "info.stargazers_count>=0"   src="{{info.owner.avatar_url}}" >  
@@ -26,12 +25,14 @@
         Download Zip
         </a>
 
+        <div class="ui active centered inline loader" v-show = "loading"></div>
+
          <div class="ui warning message " v-if="xhr.ok==false">
-                              <div class="header">
-                                Please enter correct username or repo name 
-                              </div>
-                              It is case-sensitive
-                            </div>
+          <div class="header">
+            Please enter correct username or repo name 
+          </div>
+          It is case-sensitive
+        </div>
 
         
 
@@ -79,3 +80,4 @@
             </table>
         </div>
     </div>
+

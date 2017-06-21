@@ -74,7 +74,16 @@ gulp.task('watch:js', function() {
     gulp.watch('src/js/**/*.*', ['js']);
 });
 
+gulp.task('serveprod', function() {
+  connect.server({
+    root: 'dist',
+    port: process.env.PORT || 5000, // localhost:5000
+    livereload: false
+  });
+});
+
 gulp.task('compile', ['html', 'css', 'fonts', 'js']);
 gulp.task('watch', ['compile', 'watch:html', 'watch:js']);
 gulp.task('serve', ['watch', 'start-server']);
 gulp.task('default', ['compile']);
+gulp.task('serveHeroku', ['serveprod']);

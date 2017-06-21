@@ -29,15 +29,14 @@
                 var vm = this;
 	            this.$http.get('https://api.github.com/repos/' + this.fullRepoUrl + '/contents' + this.path)
                 .then(function(data){ 
-                    this.loading = false;
-                    console.log(this);
                     vm.files=data.data ;
                     vm.xhr={};
-
-
+                    vm.loading = false;   
                 }).catch(function(err){
                     vm.xhr=err;
-                    vm.info = {} 
+                    vm.info = {};
+                    vm.loading = false;   
+
                 });
 
 	        },

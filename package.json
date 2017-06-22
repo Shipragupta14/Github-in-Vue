@@ -12,7 +12,9 @@
     "url": "https://github.com/Shipragupta14/Github-in-Vue/issues"
   },
   "scripts": {
-    "start": "gulp serve"
+    "start": "gulp serve",
+     "start": "node app", 
+     "postinstall": "gulp default" 
   },
   "homepage": "https://github.com/Shipragupta14/Github-in-Vue#readme",
   "dependencies": {

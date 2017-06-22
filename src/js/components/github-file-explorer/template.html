@@ -4,11 +4,11 @@
 
 
         <img alt="" class="ui small circular image" v-if = "info.stargazers_count>=0"   src="{{info.owner.avatar_url}}" >  
-
-        <div class ="info" style="margin-top: 30 px" v-if = "info.stargazers_count>=0">  <i class="fa fa-star" aria-hidden="true"></i> {{info.stargazers_count}}      
+        <br>
+        <div class ="info" style="margin-top: 30 px" v-if = "info.stargazers_count>=0">  <div class="ui label"><i class="fa fa-star" aria-hidden="true"></i> {{info.stargazers_count}}   </div>   
         &nbsp; &nbsp;      
-        <i class="fa fa-code-fork" aria-hidden="true"></i>
-        {{info.forks}}
+        <div class="ui label"><i class="fa fa-code-fork" aria-hidden="true"></i>
+        {{info.forks}}</div>
         &nbsp; &nbsp;  
         </div>
         <div class="ui floating message "  style="width: 500px;background-color: rgba(244, 255, 240, 0.8)" align="center" v-else>
@@ -18,20 +18,23 @@
       </ul>
         </div>
         &nbsp; &nbsp;  
-
+        <br>
 
         <a href="https://github.com/{{fullRepoUrl}}/archive/master.zip" download style="cursor:pointer" v-if = "info.stargazers_count>=0" >
+        <div class="ui label">
         <i class="fa fa-download" aria-hidden="true"></i>
         Download Zip
+                </div>
+
         </a>
 
         <div class="ui active centered inline loader" v-show = "loading"></div>
 
          <div class="ui warning message " v-if="xhr.ok==false">
           <div class="header">
-            Please enter correct username or repo name 
+            Please enter correct username or repo name!
           </div>
-          It is case-sensitive
+          It is case-sensitive.
         </div>
 
         
@@ -68,7 +71,7 @@
                             </div>
                             
                             
-                           
+        
                         </td>
                         <td class="text-right">
                             <a href="{{ file.download_url }}" download v-if="file.type === 'file'">
@@ -78,6 +81,14 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="demo" style="text-align: left;" v-if = "info.stargazers_count>=0" >{{{display}}}</div>
         </div>
     </div>
+<style type="text/css">
+    .demo img{
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+</style>
 

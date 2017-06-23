@@ -6,16 +6,18 @@
 
     <link rel="stylesheet" href="css/app.min.css">
     <link href="lib/semantic/semantic.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/atelier-forest-light.css">
+
 </head>
 <body>
 
 
-<div id="container">
+<div id="container" style="margin-bottom:75px">
 <h2 align="center" style="margin: 20px; cursor: pointer;" onclick ="my()"><i class="fa fa-github" aria-hidden="true" ></i>
 &nbsp;
 Github in Vue</h2>
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
             <form id="changeRepoForm" @submit.prevent="changeRepo()" class="form-inline" align="center">
                 <div class="ui search">
                     <div class="ui left icon input">
@@ -43,7 +45,18 @@ Github in Vue</h2>
 
 <script src="lib/jquery-3.2.1.min.js"></script>
 <script src="lib/semantic/semantic.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown.js/0.5.0/markdown.min.js"></script>
+<script src="https://unpkg.com/marked@0.3.6"></script>
+<script src="https://highlightjs.org/static/highlight.pack.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+marked.setOptions({
+  highlight: function (code) {
+    console.log(code);
+    return hljs.highlightAuto(code).value;
+  }
+});
+</script> 
+
 
 </body>
 </html>

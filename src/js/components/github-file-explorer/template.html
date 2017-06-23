@@ -39,7 +39,7 @@
 
         
 
-            <table class="ui red table" v-if="info.stargazers_count>=0" >
+            <table class="ui red table" align="center" v-if="info.stargazers_count>=0" >
             
                 <caption style="cursor:pointer" v-if="path!=='/'" >
 
@@ -60,9 +60,9 @@
                 <tbody>
                     <tr v-for="file in sortedFiles">
                         <td>
-                        <div class="file" v-if="file.type === 'file'">
+                        <div class="file" style="cursor:pointer" v-if="file.type === 'file'">
                                 <i class="fa fa-file-o"></i>
-                                {{file.name }}
+                               <a @click.prevent="chooseFile(file.name)">{{file.name}}</a>
 
                             </div> 
                         <div class="directory" style="cursor:pointer" v-if="file.type === 'dir'">
@@ -81,7 +81,21 @@
                     </tr>
                 </tbody>
             </table>
+            <br>
+
+            <table class="ui teal table" v-if = "info.stargazers_count>=0">
+            <thead>
+                <tr><th colspan="3">
+            <i class="fa fa-book" aria-hidden="true" style="font-size: 15px" v-if = "info.stargazers_count>=0">
+            README.md</i>               
+             </th>
+              </tr></thead>
+            <tbody>
+            <tr><td>
             <div class="demo" style="text-align: left;" v-if = "info.stargazers_count>=0" >{{{display}}}</div>
+            </td></tr>
+            </tbody>
+            </table>
         </div>
     </div>
 <style type="text/css">

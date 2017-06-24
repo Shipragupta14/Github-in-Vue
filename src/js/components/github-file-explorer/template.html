@@ -62,7 +62,7 @@
                         <td>
                         <div class="file" style="cursor:pointer" v-if="file.type === 'file'">
                                 <i class="fa fa-file-o"></i>
-                               <a @click.prevent="chooseFile(file.name)">{{file.name}}</a>
+                               <a @click.prevent="chooseFile(file.path)" >{{file.name}}</a>
 
                             </div> 
                         <div class="directory" style="cursor:pointer" v-if="file.type === 'dir'">
@@ -83,7 +83,7 @@
             </table>
             <br>
 
-            <table class="ui teal table" v-if = "info.stargazers_count>=0">
+            <table class="ui teal table" v-if = "info.stargazers_count>=0" v-show = "readme">
             <thead>
                 <tr><th colspan="3">
             <i class="fa fa-book" aria-hidden="true" style="font-size: 15px" v-if = "info.stargazers_count>=0">
@@ -92,10 +92,36 @@
               </tr></thead>
             <tbody>
             <tr><td>
+             
             <div class="demo" style="text-align: left;" v-if = "info.stargazers_count>=0" >{{{display}}}</div>
             </td></tr>
             </tbody>
             </table>
+
+
+<table class="ui teal table" v-if = "info.stargazers_count>=0" v-show= "showFile">
+            <thead>
+                <tr><th colspan="3">
+            <i class="fa fa-book" aria-hidden="true" style="font-size: 15px" v-if = "info.stargazers_count>=0">
+            {{fileName}}</i>               
+             </th>
+              </tr></thead>
+            <tbody>
+            <tr ><td class="content">
+            <div align="left" v-if="info.stargazers_count>=0" >
+            <pre>
+            <code class="{{types}}" id="demo1" v-html="ext">
+            </code> 
+            </pre>
+                </div>
+                </td></tr>
+            </tbody>
+            </table>
+            
+
+
+
+
         </div>
     </div>
 <style type="text/css">

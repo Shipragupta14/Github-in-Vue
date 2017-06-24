@@ -3,13 +3,26 @@
         data: function() {
             return {
                 loading: false,
+                readme: true,
+                showFile: false,
                 path: '/',
                 files: [],
                 info :{},
                 pathArr  : [],
                 xhr : {},
                 read:{},
-                display: ""
+                display: "",
+                ext: "",
+                names:[],
+                fileName: "",
+                types: {
+                    "js":  "javascript",
+                    "java": "java",
+                    "py" : "python",
+                    "md" : ""
+
+                }
+                
             };
         },
 
@@ -20,7 +33,7 @@
             },
             repo: {
                 type: String,
-                required: true
+                required: true  
             }
         },
 
@@ -60,6 +73,7 @@
                 var r = this;
                 this.$http.get('https://raw.githubusercontent.com/'+ this.fullRepoUrl +'/master/README.md' )
                 .then(function(data){ 
+                    
                     r.read=data.data ;
                     var htmlContent = marked(r.read, { sanitize: true , gfm : true});;
                     var toReplaceWith ="src=\"https://raw.githubusercontent.com/"+ r.fullRepoUrl + "/master/";
@@ -99,9 +113,44 @@
 
             },
             chooseFile: function(name){
+                if (name) {
                     console.log(name);
+                 //   console.log(this.names);
+                    var e = this;
+                    var strin;
+                    this.fileName = name.split('/').slice(-1);
+                    console.log(this.fileName)
                 this.$http.get('https://raw.githubusercontent.com/'+ this.fullRepoUrl +'/master/'+ name )
+                .then(function(data){
+                    e.readme = false;
+                    e.showFile= true;
+                 console.log(name.split(".").slice(-1));
+                 e.types = name.split(".").slice(-1);
+                 console.log(e.types.slice(0));
+                    console.log(data);
+                    e.ext = data.data;
+                    //console.log(e.ext);
+                    $(document).ready(function() {
+                  $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                    hljs.lineNumbersBlock(block);
+                  });
+                });
+                //console.log(e.display);
+
+
+                })
+                //  this.$http.get('https://raw.githubusercontent.com/'+ this.fullRepoUrl +'/master/'+ name )
+                // .then(function(data){
+                //     console.log(data);
+                //     e.ext = data.data;
+                //     document.getElementById("demo1").innerHTML = eval(data.data);
+
+                // })
+
+
                 
+                }
             }
         
 	    },
@@ -127,6 +176,8 @@
             		}
         		});
     		}
+
+
     	},
        watch: {
         repo: function(newVal, oldVal) {
@@ -134,6 +185,7 @@
             this.getFiles();
             this.getInfo();
             this.getRead();
+            this.chooseFile();
         }
     },
         created: function() {
@@ -141,6 +193,8 @@
              this.getFiles();
              this.getInfo();
              this.getRead();
+
+
             } 
         }
     };

@@ -5,7 +5,7 @@
 
         <img alt="" class="ui small circular image" v-if = "info.stargazers_count>=0"   src="{{info.owner.avatar_url}}" >  
         <br>
-        <div class ="info" style="margin-top: 30 px" v-if = "info.stargazers_count>=0">  <div class="ui olive tag label"> <b>Description : </b>{{info.description}}   </div> 
+        <div class ="info" style="margin-top: 10px;" v-if = "info.stargazers_count>=0">  <div class="ui olive tag label"> <b>Description : </b>{{info.description}}   </div> 
         </div>
         <br>
         <div class ="info"  v-if = "info.stargazers_count>=0">  <div class="ui green tag label"><i class="fa fa-star" aria-hidden="true"></i> {{info.stargazers_count}}   </div>   

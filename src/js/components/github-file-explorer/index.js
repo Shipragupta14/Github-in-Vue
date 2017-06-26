@@ -20,7 +20,8 @@
                     "js":  "javascript",
                     "java": "java",
                     "py" : "python",
-                    "md" : ""
+                    "md" : "",
+                    "json":""
 
                 }
                 
@@ -131,30 +132,76 @@
 
             },
             chooseFile: function(name){
+
                 if (name) {
                     this.loading= true;
                    // console.log(name);
                  //   console.log(this.names);
-                    var e = this;
-                    var strin;
+                    var el = this;
                     this.fileName = name.split('/').slice(-1);
+                    this.types = name.split(".").slice(-1);
+                   // console.log(this.fileName);
+                var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
+                    var strin;
+                    console.log(this.types);
+                    var e1 = this 
+                if(this.types=="json"){
+                    
+                    this.$http.get('https://api.github.com/repos/'+ this.fullRepoUrl +'/contents/'+ name+ '?ref=master' )
+                    .then(function(data){
+                        console.log("3333333333333333333333333333333");
+                        el.readme = false;
+                    el.showFile= true;
+                    el.loading = false;
+                    strin = data.data.content;
+                    el.ext = Base64.decode(strin);
+                    console.log(this.ext);
+                        $(document).ready(function() {
+                  $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                    hljs.lineNumbersBlock(block);
+                  });
+                });
+ 
+                    })
+                }
+                else if(this.types=="md") {
+                    this.$http.get('https://raw.githubusercontent.com/'+ this.fullRepoUrl +'/master/'+ name )
+                .then(function(data){
+                    el.readme = true;
+                    el.showFile= false;
+                    el.loading = false;
+                    var htmlContent = marked(data.data, { sanitize: true , gfm : true});;
+                    var toReplaceWith ="src=\"https://raw.githubusercontent.com/"+ el.fullRepoUrl + "/master/";
+                    el.display = htmlContent.replace(/src="[^http]/g, toReplaceWith);
+
+                    //el.types = "";
+                //     $(document).ready(function() {
+                //   $('pre code').each(function(i, block) {
+                //     hljs.highlightBlock(block);
+                //   });
+                // });
+
+                });
+            }
+                else{ 
                 this.$http.get('https://raw.githubusercontent.com/'+ this.fullRepoUrl +'/master/'+ name )
                 .then(function(data){
-                    e.readme = false;
-                    e.showFile= true;
-                    e.loading = false;
+                    el.readme = false;
+                    el.showFile= true;
+                    el.loading = false;
                 // console.log(name.split(".").slice(-1));
-                 e.types = name.split(".").slice(-1);
                 // console.log(e.types.slice(0));
-                   // console.log(data);
-                   if (e.types == "html") {
-                    e.ext = data.data.replace(/</g, '&lt');
-                    e.ext = e.ext.replace(/>/g, '&gt');
-                   }else if (e.types=="json") {
-                    e.ext = JSON.parse(data.data);;
-                   }else
-                    e.ext = data.data;
-                    //console.log(e.ext);
+                  // console.log(data.data);
+                   el.types = name.split(".").slice(-1);
+                   if (el.types == "html") {
+                    el.ext = data.data.replace(/</g, '&lt');
+                    el.ext = el.ext.replace(/>/g, '&gt');
+                   }else{
+                    el.ext = data.data;
+                    console.log(el.ext);
+                   }
+                    
                 $(document).ready(function() {
                   $('pre code').each(function(i, block) {
                     hljs.highlightBlock(block);
@@ -165,6 +212,7 @@
                 })
                 
                 }
+            }
             }
         
 	    },

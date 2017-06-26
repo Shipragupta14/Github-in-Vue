@@ -13,8 +13,8 @@ new Vue({
         changeRepo: function() {
             var splitData = this.fullRepoName.split('/');
             this.username = splitData[0];
-            this.repo = splitData[1];
-
+            this.repo = splitData[1];   
+            
             console.group("Vue Data");
             console.log("fullRepoName:", this.fullRepoName);
             console.log("username:", this.username);

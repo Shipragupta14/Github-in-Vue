@@ -19,7 +19,6 @@ td.hljs-ln-numbers {
 	color: #ccc;
 	border-right: 1px solid #CCC;
 	vertical-align: top;
-	padding: 0px;
 	padding-right: 5px;
 
 	/* your custom style here */
@@ -27,15 +26,14 @@ td.hljs-ln-numbers {
 
 /* for block of code */
 td.hljs-ln-code {
-	padding : 0px;
 	padding-left: 10px;
 }
 
 
 
-.hljs-ln-line {
+/*.hljs-ln-line {
 	width : 30px;
-}
+}*/
 .hljs-ln-n {
 	width : 30px;
 }

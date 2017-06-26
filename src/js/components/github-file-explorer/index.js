@@ -15,6 +15,7 @@
                 ext: "",
                 names:[],
                 fileName: "",
+                noReadme: false,
                 types: {
                     "js":  "javascript",
                     "java": "java",
@@ -40,12 +41,15 @@
         methods: {
 	        getFiles: function() {
                 this.loading =true;
+            
                 console.log("hello");
                 var vm = this;
 	            this.$http.get('https://api.github.com/repos/' + this.fullRepoUrl + '/contents' + this.path)
                 .then(function(data){ 
+                    
                     vm.files=data.data ;
                     vm.xhr={};
+
                     vm.loading = false;   
                 }).catch(function(err){
                     vm.xhr=err;
@@ -78,30 +82,44 @@
                     var htmlContent = marked(r.read, { sanitize: true , gfm : true});;
                     var toReplaceWith ="src=\"https://raw.githubusercontent.com/"+ r.fullRepoUrl + "/master/";
                     r.display = htmlContent.replace(/src="[^http]/g, toReplaceWith);
-                    r.xhr={}; 
+                   // r.xhr={}; 
+                    r.noReadme = false;
 
                 }).catch(function(err){
-                    r.xhr=err;
+                    r.xhr.noreadme=err;
                     r.info = {}; 
-
+                    r.noReadme = true;
+                    r.readme=false;
                 });
             },
             changePath: function(path) {
+                this.readme = false;
+               
                 this.pathArr = path.split('/');
                 this.pathArr.unshift(this.fullRepoUrl);
                 console.log(path.split('/'));
                 this.path = '/' + path;
-
+                 
                 this.getFiles();
-                this.getRead();
+                if(this.path === '/'){
+                    this.readme = true ;
+                    this.showFile = false;
+                    this.getRead();
+
+                }
             },
             goBack: function() {
+                this.readme = false;
+                this.showFile = false;
                 this.path = this.path.split('/').slice(0, -1).join('/');
+                this.getFiles();
                 if (this.path === ''){
                  this.path = '/'
-                this.getFiles();
-                this.getRead();
-           }
+                 if(!this.noReadme){
+                    this.getRead();
+                    this.readme = true
+                 }
+                }
             },
             choosePath: function(index){
                 console.log(index);
@@ -114,41 +132,37 @@
             },
             chooseFile: function(name){
                 if (name) {
-                    console.log(name);
+                    this.loading= true;
+                   // console.log(name);
                  //   console.log(this.names);
                     var e = this;
                     var strin;
                     this.fileName = name.split('/').slice(-1);
-                    console.log(this.fileName)
                 this.$http.get('https://raw.githubusercontent.com/'+ this.fullRepoUrl +'/master/'+ name )
                 .then(function(data){
                     e.readme = false;
                     e.showFile= true;
-                 console.log(name.split(".").slice(-1));
+                    e.loading = false;
+                // console.log(name.split(".").slice(-1));
                  e.types = name.split(".").slice(-1);
-                 console.log(e.types.slice(0));
-                    console.log(data);
+                // console.log(e.types.slice(0));
+                   // console.log(data);
+                   if (e.types == "html") {
+                    e.ext = data.data.replace(/</g, '&lt');
+                    e.ext = e.ext.replace(/>/g, '&gt');
+                   }else if (e.types=="json") {
+                    e.ext = JSON.parse(data.data);;
+                   }else
                     e.ext = data.data;
                     //console.log(e.ext);
-                    $(document).ready(function() {
+                $(document).ready(function() {
                   $('pre code').each(function(i, block) {
                     hljs.highlightBlock(block);
                     hljs.lineNumbersBlock(block);
                   });
                 });
-                //console.log(e.display);
-
 
                 })
-                //  this.$http.get('https://raw.githubusercontent.com/'+ this.fullRepoUrl +'/master/'+ name )
-                // .then(function(data){
-                //     console.log(data);
-                //     e.ext = data.data;
-                //     document.getElementById("demo1").innerHTML = eval(data.data);
-
-                // })
-
-
                 
                 }
             }
@@ -160,6 +174,15 @@
 	            return this.username + '/' + this.repo;
 	        },
 	        sortedFiles: function() {
+                if (this.path === '/') {
+                    if(!this.noReadme)
+                    this.readme = true;
+                    else{
+                        this.readme= false;
+                    }
+                    this.showFile= false;
+                }
+
         		return this.files.slice(0).sort(function(a, b) {  
             		if (a.type !== b.type) {
                 		if (a.type === 'dir') {
@@ -184,7 +207,9 @@
             this.path = '/';
             this.getFiles();
             this.getInfo();
+            console.log("afterInfo")
             this.getRead();
+            console.log("afterRead")
             this.chooseFile();
         }
     },
@@ -193,8 +218,6 @@
              this.getFiles();
              this.getInfo();
              this.getRead();
-
-
             } 
         }
     };

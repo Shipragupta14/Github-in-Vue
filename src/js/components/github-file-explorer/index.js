@@ -128,13 +128,27 @@
                 this.pathArr = this.pathArr.slice(0, index+1);
                 this.getFiles();
                 this.getRead();
-
+                if (this.path === ''){
+                 this.path = '/'
+                 if(!this.noReadme){
+                    this.getRead();
+                    this.readme = true
+                 }
+                }
 
             },
             chooseFile: function(name){
 
                 if (name) {
                     this.loading= true;
+                    
+                    $('.ui.modal')
+                  .modal('show')
+                ;
+                   $('.long.modal')
+                  .modal('show')
+                ;
+                    ;
                    // console.log(name);
                  //   console.log(this.names);
                     var el = this;
@@ -175,15 +189,11 @@
                     var toReplaceWith ="src=\"https://raw.githubusercontent.com/"+ el.fullRepoUrl + "/master/";
                     el.display = htmlContent.replace(/src="[^http]/g, toReplaceWith);
 
-                    //el.types = "";
-                //     $(document).ready(function() {
-                //   $('pre code').each(function(i, block) {
-                //     hljs.highlightBlock(block);
-                //   });
-                // });
+               
 
                 });
             }
+
                 else{ 
                 this.$http.get('https://raw.githubusercontent.com/'+ this.fullRepoUrl +'/master/'+ name )
                 .then(function(data){
@@ -255,9 +265,9 @@
             this.path = '/';
             this.getFiles();
             this.getInfo();
-            console.log("afterInfo")
+           // console.log("afterInfo")
             this.getRead();
-            console.log("afterRead")
+           // console.log("afterRead")
             this.chooseFile();
         }
     },

@@ -91,7 +91,7 @@
             </table>
             <br>
 
-            <table class="ui teal table" v-if = "info.stargazers_count>=0" v-show = "readme">
+            <table class=" ui teal table" v-if = "info.stargazers_count>=0" v-show = "readme">
             <thead>
                 <tr><th colspan="3">
             <i class="fa fa-book" aria-hidden="true" style="font-size: 15px" v-if = "info.stargazers_count>=0">
@@ -100,14 +100,13 @@
               </tr></thead>
             <tbody>
             <tr><td>
-             
             <div class="demo" style="text-align: left;" v-if = "info.stargazers_count>=0" >{{{display}}}</div>
             </td></tr>
             </tbody>
             </table>
-<div class="ui modal long modal" style= "overflow: auto">
+<div class="ui long modal" style= "overflow: auto">
 
-<table class="ui teal table" v-if = "info.stargazers_count>=0" v-show= "showFile">
+<table class="irfan ui teal table" v-if = "info.stargazers_count>=0" v-show= "showFile">
             <thead>
                 <tr><th colspan="3">
             <i class="fa fa-book" aria-hidden="true" style="font-size: 15px" v-if = "info.stargazers_count>=0">
@@ -135,6 +134,11 @@
         max-width: 90%;
         max-height: 90%;
     }
-
+.irfan.ui.table td {
+    padding: 0px !important;
+    padding-bottom: 0.25em !important;
+    padding-top: 0px  !important;
+    padding-left: .78571429em !important;
+}
 </style>
 

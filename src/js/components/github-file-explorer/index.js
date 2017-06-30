@@ -21,8 +21,7 @@
                     "java": "java",
                     "py" : "python",
                     "md" : "",
-                    "json":""
-
+                    "json": "json"
                 }
                 
             };
@@ -141,14 +140,8 @@
 
                 if (name) {
                     this.loading= true;
+
                     
-                    $('.ui.modal')
-                  .modal('show')
-                ;
-                   $('.long.modal')
-                  .modal('show')
-                ;
-                    ;
                    // console.log(name);
                  //   console.log(this.names);
                     var el = this;
@@ -164,7 +157,14 @@
                     this.$http.get('https://api.github.com/repos/'+ this.fullRepoUrl +'/contents/'+ name+ '?ref=master' )
                     .then(function(data){
                         console.log("3333333333333333333333333333333");
-                        el.readme = false;
+
+                    $('.ui.modal')
+                  .modal('show')
+                ;
+                   $('.long.modal')
+                  .modal('show')
+                ;
+                   // el.readme = false;
                     el.showFile= true;
                     el.loading = false;
                     strin = data.data.content;
@@ -187,43 +187,51 @@
                     el.loading = false;
                     var htmlContent = marked(data.data, { sanitize: true , gfm : true});;
                     var toReplaceWith ="src=\"https://raw.githubusercontent.com/"+ el.fullRepoUrl + "/master/";
-                    el.display = htmlContent.replace(/src="[^http]/g, toReplaceWith);
-
-               
+                    el.display = htmlContent.replace(/src="[^http]/g, toReplaceWith); 
 
                 });
-            }
-
-                else{ 
-                this.$http.get('https://raw.githubusercontent.com/'+ this.fullRepoUrl +'/master/'+ name )
-                .then(function(data){
-                    el.readme = false;
+            }else if(this.types[0]=="crx"){
+                    //el.readme = false;
                     el.showFile= true;
                     el.loading = false;
-                // console.log(name.split(".").slice(-1));
-                // console.log(e.types.slice(0));
-                  // console.log(data.data);
-                   el.types = name.split(".").slice(-1);
-                   if (el.types == "html") {
-                    el.ext = data.data.replace(/</g, '&lt');
-                    el.ext = el.ext.replace(/>/g, '&gt');
-                   }else{
-                    el.ext = data.data;
-                    console.log(el.ext);
-                   }
-                    
-                $(document).ready(function() {
-                  $('pre code').each(function(i, block) {
-                    hljs.highlightBlock(block);
-                    hljs.lineNumbersBlock(block);
-                  });
-                });
+                    $('.ui.modal').modal('show');
+                    $('.long.modal').modal('show');
+                    var url = "https://raw.githubusercontent.com/"+this.fullRepoUrl+"/master/"+name;
+                    el.ext = "This file is too large to display. So, you have to download it only";
+                   // el.ext = "<div class="ui floating message "  style="width: 500px;background-color: rgba(244, 255, 240, 0.8)" align="center" </div>" ;
+                   // el.ext = "<a href='"+url+"' download>Download - not sup</a>";
+                    console.log(el.ext)
+            }else{ 
+                this.$http.get('https://raw.githubusercontent.com/'+ this.fullRepoUrl +'/master/'+ name )
+                .then(function(data){
+                       
+                    $('.ui.modal').modal('show');
+                    $('.long.modal').modal('show');
+                    //el.readme = false;
+                    el.showFile= true;
+                    el.loading = false;
 
-                })
+                    el.types = name.split(".").slice(-1);
+                    if (el.types == "html") {
+                        el.ext = data.data.replace(/</g, '&lt');
+                        el.ext = el.ext.replace(/>/g, '&gt');
+                    }else{
+                        el.ext = data.data;
+                        console.log(el.ext);
+                    }
+                    
+                    $(document).ready(function() {
+                      $('pre code').each(function(i, block) {
+                        hljs.highlightBlock(block);
+                        hljs.lineNumbersBlock(block);
+                      });
+                    });
+
+                });
                 
-                }
             }
-            }
+        }
+        }
         
 	    },
 

@@ -5,7 +5,7 @@
 
         <img alt="" class="ui small circular image" v-if = "info.stargazers_count>=0"   src="{{info.owner.avatar_url}}" >  
         <br>
-        <div class ="info" style="margin-top: 10px;" v-if = "info.stargazers_count>=0">  <div class="ui olive tag label"> <b>Description : </b>{{info.description}}   </div> 
+        <div class ="info" style="margin-top: 10px;" v-if = "info.stargazers_count>=0" >  <div class="ui olive tag label" v-if= "info.description" style="max-width:20cm"> <b>Description : </b>{{info.description}}   </div> 
         </div>
         <br>
         <div class ="info"  v-if = "info.stargazers_count>=0">  <div class="ui green tag label"><i class="fa fa-star" aria-hidden="true"></i> {{info.stargazers_count}}   </div>   
@@ -106,7 +106,7 @@
             </table>
 <div class="ui long modal" style= "overflow: auto">
 
-<table class="irfan ui teal table" v-if = "info.stargazers_count>=0" v-show= "showFile">
+<table class="space ui teal table" v-if = "info.stargazers_count>=0" v-show= "showFile">
             <thead>
                 <tr><th colspan="3">
             <i class="fa fa-book" aria-hidden="true" style="font-size: 15px" v-if = "info.stargazers_count>=0">
@@ -134,7 +134,7 @@
         max-width: 90%;
         max-height: 90%;
     }
-.irfan.ui.table td {
+.space.ui.table td {
     padding: 0px !important;
     padding-bottom: 0.25em !important;
     padding-top: 0px  !important;

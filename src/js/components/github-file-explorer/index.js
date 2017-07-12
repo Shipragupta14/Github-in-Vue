@@ -152,11 +152,11 @@
                     var strin;
                     console.log(this.types);
                     var e1 = this 
-                if(this.types=="json"){
+                if(this.types=="json"||this.types=="ipynb"){
                     
                     this.$http.get('https://api.github.com/repos/'+ this.fullRepoUrl +'/contents/'+ name+ '?ref=master' )
                     .then(function(data){
-                        console.log("3333333333333333333333333333333");
+                       // console.log("3333333333333333333333333333333");
 
                     $('.ui.modal')
                   .modal('show')
@@ -190,7 +190,7 @@
                     el.display = htmlContent.replace(/src="[^http]/g, toReplaceWith); 
 
                 });
-            }else if(this.types[0]=="crx"){
+            }else if(this.types=="crx"||this.types=="png"||this.types=="psd"||this.types=="zip"||this.types=="tar"||this.types=="xpi"){
                     //el.readme = false;
                     el.showFile= true;
                     el.loading = false;

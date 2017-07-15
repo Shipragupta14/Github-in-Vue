@@ -11,7 +11,4 @@ You can enter any repository in the format of username/repo in the search bar.
 ![Figure 2](/screenshots/s2.png)
 All the files and folders are now visible to you where you can download any file by clicking on the download icon and a modal will get popup if click on the filename which shows its content.
 
-* If you entered the wrong repo name, then a error msg will get appears to you.
-
-![Figure 3](/screenshots/s3.png)
 
